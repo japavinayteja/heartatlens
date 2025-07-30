@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "composite": true,
+    "tsBuildInfoFile": "./node_modules/.tsbuildinfo/tsconfig.app.tsbuildinfo"
+  },
+  "include": [
+    "src"
+  ]
+}
