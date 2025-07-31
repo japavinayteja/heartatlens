@@ -38,14 +38,14 @@ export class AdminDashboard {
 
   private renderGalleriesList(): string {
     return `
-      <div class="pt-20 bg-white min-h-screen">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div class="mb-8">
-            <div class="text-center mb-6">
-              <h1 class="text-3xl font-bold text-black mb-2">Admin Dashboard</h1>
+      <div class="pt-20 bg-gray-50 min-h-screen">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div class="mb-10">
+            <div class="text-center mb-8">
+              <h1 class="text-2xl font-bold text-black mb-3">Admin Dashboard</h1>
               <p class="text-gray-600">Manage your photo galleries and website content</p>
             </div>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-4">
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6">
               <button id="create-gallery-btn" class="w-full sm:w-auto bg-black hover:bg-gray-800 text-white font-semibold py-4 px-8 rounded-lg transition-colors shadow-lg">
                 📸 Create New Gallery
               </button>
@@ -57,7 +57,7 @@ export class AdminDashboard {
 
           <div class="bg-white rounded-lg shadow-lg overflow-hidden">
             <div class="px-6 py-4 border-b border-gray-200">
-              <h2 class="text-lg font-semibold text-black">All Galleries</h2>
+              <h2 class="text-xl font-semibold text-black text-center">All Galleries</h2>
             </div>
             
             ${this.galleries.length > 0 ? `
@@ -223,6 +223,7 @@ export class AdminDashboard {
                   <option value="wedding">Wedding</option>
                   <option value="prewedding">Pre-Wedding</option>
                   <option value="birthday">Birthday</option>
+                  <option value="babyshower">Baby Shower</option>
                 </select>
               </div>
               
@@ -294,6 +295,7 @@ export class AdminDashboard {
                   <option value="wedding" ${this.selectedGallery.category === 'wedding' ? 'selected' : ''}>Wedding</option>
                   <option value="prewedding" ${this.selectedGallery.category === 'prewedding' ? 'selected' : ''}>Pre-Wedding</option>
                   <option value="birthday" ${this.selectedGallery.category === 'birthday' ? 'selected' : ''}>Birthday</option>
+                  <option value="babyshower" ${this.selectedGallery.category === 'babyshower' ? 'selected' : ''}>Baby Shower</option>
                 </select>
               </div>
               

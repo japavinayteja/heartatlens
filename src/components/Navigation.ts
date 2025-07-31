@@ -38,7 +38,7 @@ export class Navigation {
           <a href="#" data-page="contact" class="nav-link px-4 py-2">Contact</a>
           ${this.isAdminLoggedIn 
             ? '<a href="#" data-page="admin" class="nav-link px-4 py-2">Admin</a><a href="#" id="logout-btn" class="nav-link logout-link px-4 py-2">Logout</a>'
-            : '<a href="#" data-page="login" class="nav-link admin-link px-4 py-2">Admin</a>'
+            : '<a href="#" data-page="login" class="nav-link px-4 py-2">Admin</a>'
           }
         </div>
         
@@ -58,7 +58,7 @@ export class Navigation {
         <a href="#" data-page="contact" class="mobile-nav-link">Contact</a>
         ${this.isAdminLoggedIn 
           ? '<a href="#" data-page="admin" class="mobile-nav-link">Admin</a><a href="#" id="logout-btn-mobile" class="mobile-nav-link logout-link">Logout</a>'
-          : '<a href="#" data-page="login" class="mobile-nav-link admin-link">Admin</a>'
+          : '<a href="#" data-page="login" class="mobile-nav-link">Admin</a>'
         }
       </div>
     `;

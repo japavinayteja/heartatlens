@@ -15,6 +15,21 @@ body {
   color: #000000;
   background-color: #ffffff;
   scroll-behavior: smooth;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main App Container */
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Page Content Container */
+.page-content {
+  flex: 1;
 }
 
 /* Typography */
@@ -75,7 +90,7 @@ img {
 .header-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 0.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -219,7 +234,7 @@ img {
 
 .logo-text h1 {
   color: #000000;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: 600;
   margin-bottom: 0.25rem;
   line-height: 1.2;
@@ -233,7 +248,7 @@ img {
 
 .logo-text .tagline {
   color: rgba(0, 0, 0, 0.7);
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 300;
   margin: 0;
   line-height: 1.2;
@@ -241,7 +256,7 @@ img {
 
 .desktop-nav {
   display: flex;
-  gap: 0;
+  gap: 0.25rem;
   align-items: center;
   justify-content: center;
 }
@@ -250,10 +265,12 @@ img {
   color: #000000;
   text-decoration: none;
   font-weight: 500;
-  margin: 0 0.5rem;
+  margin: 0 0.25rem;
+  padding: 0.5rem 0.75rem;
   border-radius: 4px;
   transition: all 0.3s ease;
   text-align: center;
+  font-size: 0.9rem;
 }
 
 .nav-link:hover,
@@ -1018,24 +1035,23 @@ img {
 
 .footer-content {
   padding: 2rem 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .footer-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1rem;
-  display: block;
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .footer-nav {
   display: flex;
-  gap: 3rem;
-  justify-content: center;
+  gap: 2rem;
   align-items: center;
   flex-wrap: wrap;
-  margin-bottom: 1rem;
 }
 
 .footer-link {
@@ -1052,13 +1068,13 @@ img {
 .social-media {
   display: flex;
   gap: 1rem;
-  justify-content: center;
   align-items: center;
 }
 
 .footer-copyright {
-  padding: 1.5rem 0;
+  padding: 1rem 0;
   text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .footer-copyright p {

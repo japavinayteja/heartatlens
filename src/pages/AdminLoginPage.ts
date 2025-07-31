@@ -3,70 +3,140 @@ import { storage } from '../storage';
 export class AdminLoginPage {
   render(): string {
     return `
-      <div class="pt-16 bg-white min-h-screen">
-        <div class="max-w-md mx-auto px-4 py-20">
-          <div class="bg-white rounded-lg shadow-lg p-8">
-            <div class="text-center mb-8">
-              <h1 class="text-xl font-bold text-black mb-2">Admin Login</h1>
-              <p class="text-gray-600">Access the admin dashboard</p>
+      <section class="contact-section">
+        <div class="container">
+          <div class="section-header">
+            <h1>Admin Dashboard</h1>
+            <p>Access the administrative panel to manage galleries, upload photos, and control website content.</p>
+          </div>
+
+          <div class="contact-content">
+            <!-- Admin Features Information -->
+            <div class="contact-info">
+              <h2>Dashboard Features</h2>
+              
+              <div class="contact-details">
+                <div class="contact-item">
+                  <div class="contact-icon">📁</div>
+                  <div class="contact-text">
+                    <h3>Gallery Management</h3>
+                    <p>Create and manage client galleries organized by event type (weddings, pre-wedding, birthdays, baby showers)</p>
+                  </div>
+                </div>
+                
+                <div class="contact-item">
+                  <div class="contact-icon">📤</div>
+                  <div class="contact-text">
+                    <h3>Photo Upload & Management</h3>
+                    <p>Add high-quality images to client galleries and remove unwanted photos with easy drag-and-drop functionality</p>
+                  </div>
+                </div>
+                
+                <div class="contact-item">
+                  <div class="contact-icon">🔒</div>
+                  <div class="contact-text">
+                    <h3>Password Protection</h3>
+                    <p>Generate secure passwords for client gallery access and control gallery visibility settings</p>
+                  </div>
+                </div>
+                
+                <div class="contact-item">
+                  <div class="contact-icon">🖼️</div>
+                  <div class="contact-text">
+                    <h3>Website Content Management</h3>
+                    <p>Update hero images, service photos, and recent work showcase to keep your website fresh and current</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="social-section">
+                <h3>Admin Access</h3>
+                <p class="text-gray-600 mb-4">Secure login required to access administrative features</p>
+              </div>
             </div>
-            
-            <form id="login-form" class="space-y-6">
-              <div>
-                <label for="username" class="block text-sm font-medium text-black mb-2">Username</label>
-                <input type="text" id="username" name="username" required 
-                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent">
+
+            <!-- Login Form Section -->
+            <div class="contact-form-section">
+              <h2>Admin Login</h2>
+              
+              <form id="loginForm" class="contact-form">
+                <div class="form-group">
+                  <label for="username">Username *</label>
+                  <input type="text" id="username" name="username" required 
+                         placeholder="Enter your admin username">
+                </div>
+                
+                <div class="form-group">
+                  <label for="password">Password *</label>
+                  <input type="password" id="password" name="password" required 
+                         placeholder="Enter your admin password">
+                </div>
+                
+                <button type="submit" class="btn-primary submit-btn">Login to Dashboard</button>
+              </form>
+              
+              <div id="form-success" class="success-message hidden">
+                <div class="message-content">
+                  ✅ Login successful! Redirecting to dashboard...
+                </div>
               </div>
               
-              <div>
-                <label for="password" class="block text-sm font-medium text-black mb-2">Password</label>
-                <input type="password" id="password" name="password" required 
-                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent">
+              <div id="form-error" class="error-message hidden">
+                <div class="message-content">
+                  ❌ <span id="error-text">Invalid username or password. Please try again.</span>
+                </div>
               </div>
-              
-              <button type="submit" 
-                      class="w-full bg-black hover:bg-gray-800 text-white font-semibold py-3 px-6 rounded-lg transition-colors">
-                Login
-              </button>
-            </form>
-            
-            <div id="login-error" class="hidden mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-              Invalid username or password.
-            </div>
-            
-            <div class="mt-6 p-4 bg-gray-50 rounded-lg">
-              <p class="text-sm text-gray-600 mb-2"><strong>Demo Credentials:</strong></p>
-              <p class="text-sm text-gray-600">Username: <code class="bg-gray-200 px-1 rounded">vnjapa</code></p>
-              <p class="text-sm text-gray-600">Password: <code class="bg-gray-200 px-1 rounded">test123</code></p>
             </div>
           </div>
         </div>
-      </div>
+      </section>
     `;
   }
 
   attachEventListeners(): void {
-    const form = document.getElementById('login-form');
-    const errorDiv = document.getElementById('login-error');
+    const loginForm = document.getElementById('loginForm') as HTMLFormElement;
+    const successDiv = document.getElementById('form-success');
+    const errorDiv = document.getElementById('form-error');
+    const errorText = document.getElementById('error-text');
     
-    if (form) {
-      form.addEventListener('submit', (e) => {
+    if (loginForm) {
+      loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
-        const formData = new FormData(e.target as HTMLFormElement);
-        const username = formData.get('username') as string;
-        const password = formData.get('password') as string;
+        // Hide previous messages
+        successDiv?.classList.add('hidden');
+        errorDiv?.classList.add('hidden');
         
+        const username = (document.getElementById('username') as HTMLInputElement).value;
+        const password = (document.getElementById('password') as HTMLInputElement).value;
+        
+        // Basic validation
+        if (!username || !password) {
+          if (errorText) {
+            errorText.textContent = 'Please fill in all required fields.';
+          }
+          errorDiv?.classList.remove('hidden');
+          return;
+        }
+        
+        // Get admin from storage
         const admin = storage.getAdmin();
         
         if (admin && username === admin.username && password === admin.password) {
-          storage.setCurrentAdmin(username);
-          window.dispatchEvent(new CustomEvent('admin-login'));
-          window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'admin' } }));
+          // Show success message
+          successDiv?.classList.remove('hidden');
+          
+          // Store authentication state and redirect after delay
+          setTimeout(() => {
+            storage.setCurrentAdmin(username);
+            window.dispatchEvent(new CustomEvent('admin-login'));
+            window.dispatchEvent(new CustomEvent('navigate', { detail: { page: 'admin' } }));
+          }, 1000);
         } else {
-          if (errorDiv) {
-            errorDiv.classList.remove('hidden');
+          if (errorText) {
+            errorText.textContent = 'Invalid username or password. Please try again.';
           }
+          errorDiv?.classList.remove('hidden');
         }
       });
     }
