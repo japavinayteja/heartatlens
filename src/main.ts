@@ -3,14 +3,12 @@ import { Navigation } from './components/Navigation';
 import { Footer } from './components/Footer';
 import { HomePage } from './pages/HomePage';
 import { AboutPage } from './pages/AboutPage';
-import { GalleryPage } from './pages/GalleryPage';
 import { ContactPage } from './pages/ContactPage';
 import { AdminDashboard } from './pages/AdminDashboard';
+import { AdminLoginPage } from './pages/AdminLoginPage';
 import { PrivacyPage } from './pages/PrivacyPage';
 import { TermsPage } from './pages/TermsPage';
 import { FAQPage } from './pages/FAQPage';
-import { AdminLoginPage } from './pages/AdminLoginPage';
-import { storage } from './storage';
 import { disableRightClick } from './utils';
 
 class App {
@@ -20,8 +18,7 @@ class App {
   private pages: { [key: string]: any } = {};
 
   constructor() {
-    // Initialize default admin and disable right-click
-    storage.initializeDefaultAdmin();
+    // Disable right-click
     disableRightClick();
 
     // Initialize navigation
@@ -32,7 +29,6 @@ class App {
     this.pages = {
       home: new HomePage(),
       about: new AboutPage(),
-      gallery: new GalleryPage(),
       contact: new ContactPage(),
       admin: new AdminDashboard(),
       login: new AdminLoginPage(),
@@ -64,7 +60,7 @@ class App {
     this.currentPage = page;
     
     // Check admin access
-    if (page === 'admin' && !storage.getCurrentAdmin()) {
+    if (page === 'admin' && !localStorage.getItem('admin_logged_in')) {
       // Redirect to login if trying to access admin without authentication
       this.renderPage('login');
       return;

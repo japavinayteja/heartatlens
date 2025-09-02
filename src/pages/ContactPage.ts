@@ -1,4 +1,12 @@
 import { ContactForm } from '../types';
+import emailjs from '@emailjs/browser';
+
+// EmailJS Configuration
+const EMAILJS_CONFIG = {
+  publicKey: 'gYxJ-Eh8YjDMcdOzu',
+  serviceId: 'service_yb5fymc',
+  templateId: 'template_9urtgys'
+};
 
 export class ContactPage {
   render(): string {
@@ -97,13 +105,17 @@ export class ContactPage {
   }
 
   attachEventListeners(): void {
+    // Initialize EmailJS
+    emailjs.init(EMAILJS_CONFIG.publicKey);
+    
     const form = document.getElementById('contact-form') as HTMLFormElement;
     const successDiv = document.getElementById('form-success');
     const errorDiv = document.getElementById('form-error');
     const errorText = document.getElementById('error-text');
+    const submitBtn = form?.querySelector('.submit-btn') as HTMLButtonElement;
     
     if (form) {
-      form.addEventListener('submit', (e) => {
+      form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
         // Hide previous messages
@@ -137,35 +149,53 @@ export class ContactPage {
           return;
         }
         
-        // Simulate form submission
-        this.submitForm(contactData)
-          .then(() => {
-            successDiv?.classList.remove('hidden');
-            form.reset();
-          })
-          .catch((error) => {
-            if (errorText) {
-              errorText.textContent = error.message || 'An error occurred. Please try again.';
-            }
-            errorDiv?.classList.remove('hidden');
-          });
+        // Disable submit button and show loading state
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Sending...';
+        }
+        
+        try {
+          await this.submitForm(contactData);
+          successDiv?.classList.remove('hidden');
+          form.reset();
+        } catch (error: any) {
+          if (errorText) {
+            errorText.textContent = error.message || 'Failed to send message. Please try again.';
+          }
+          errorDiv?.classList.remove('hidden');
+        } finally {
+          // Re-enable submit button
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Send Message';
+          }
+        }
       });
     }
   }
 
   private async submitForm(data: ContactForm): Promise<void> {
-    // Simulate API call
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        console.log('Contact form submitted:', data);
-        
-        // Simulate success (90% success rate)
-        if (Math.random() > 0.1) {
-          resolve();
-        } else {
-          reject(new Error('Network error. Please try again.'));
-        }
-      }, 1000);
-    });
+    try {
+      // Send email using EmailJS
+      const templateParams = {
+        from_name: data.name,
+        from_email: data.email,
+        message: data.message,
+        to_name: 'HeartAtLens Team', // You can customize this
+      };
+
+      const response = await emailjs.send(
+        EMAILJS_CONFIG.serviceId,
+        EMAILJS_CONFIG.templateId,
+        templateParams
+      );
+
+      console.log('Email sent successfully:', response);
+      return Promise.resolve();
+    } catch (error: any) {
+      console.error('EmailJS error:', error);
+      throw new Error('Failed to send email. Please try again or contact us directly.');
+    }
   }
 }

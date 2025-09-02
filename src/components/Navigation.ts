@@ -1,5 +1,3 @@
-import { storage } from '../storage';
-
 export class Navigation {
   private currentPage: string = 'home';
   private isAdminLoggedIn: boolean = false;
@@ -11,7 +9,7 @@ export class Navigation {
   }
 
   private checkAdminStatus(): void {
-    this.isAdminLoggedIn = !!storage.getCurrentAdmin();
+    this.isAdminLoggedIn = !!localStorage.getItem('admin_logged_in');
   }
 
   private render(): void {
@@ -33,7 +31,6 @@ export class Navigation {
         <!-- Desktop Navigation -->
         <div class="desktop-nav">
           <a href="#" data-page="home" class="nav-link px-4 py-2">Home</a>
-          <a href="#" data-page="gallery" class="nav-link px-4 py-2">Gallery</a>
           <a href="#" data-page="about" class="nav-link px-4 py-2">About</a>
           <a href="#" data-page="contact" class="nav-link px-4 py-2">Contact</a>
           ${this.isAdminLoggedIn 
@@ -53,7 +50,6 @@ export class Navigation {
       <!-- Mobile Navigation Menu -->
       <div id="mobile-menu" class="mobile-menu hidden">
         <a href="#" data-page="home" class="mobile-nav-link">Home</a>
-        <a href="#" data-page="gallery" class="mobile-nav-link">Gallery</a>
         <a href="#" data-page="about" class="mobile-nav-link">About</a>
         <a href="#" data-page="contact" class="mobile-nav-link">Contact</a>
         ${this.isAdminLoggedIn 
@@ -120,7 +116,7 @@ export class Navigation {
   }
 
   private logout(): void {
-    storage.clearCurrentAdmin();
+    localStorage.removeItem('admin_logged_in');
     this.isAdminLoggedIn = false;
     this.render();
     this.attachEventListeners();
